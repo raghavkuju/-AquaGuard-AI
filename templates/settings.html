@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block title %}Settings | AquaGuard AI{% endblock %}
+{% block breadcrumb %}Settings{% endblock %}
+{% block content %}
+<section class="page-intro"><div><div class="eyebrow"><span class="eyebrow-line"></span> PREFERENCES</div><h1>Workspace <span>settings.</span></h1><p class="hero-copy">Basic preferences and information about your local setup.</p></div></section>
+<div class="settings-grid"><section class="panel settings-card"><div class="panel-heading"><div><div class="section-kicker">DISPLAY</div><h2>Appearance</h2><p>Dashboard display options.</p></div><span class="metric-icon purple">◐</span></div><div class="setting-row"><div><strong>Dark dashboard</strong><small>Premium navy theme with cyan accents.</small></div><span class="setting-tag">ACTIVE</span></div><div class="setting-row"><div><strong>Responsive layout</strong><small>Adapts to desktop, tablet, and mobile screens.</small></div><span class="setting-tag">ON</span></div></section>
+<section class="panel settings-card"><div class="panel-heading"><div><div class="section-kicker">MODEL CONNECTION</div><h2>Local AI model</h2><p>Backend connection information.</p></div><span class="metric-icon cyan">◈</span></div><div class="setting-row"><div><strong>Model file</strong><small>aquaguard_ai_model.joblib</small></div><span class="setting-tag {{ 'tag-good' if model_ready else 'tag-bad' }}">{{ 'CONNECTED' if model_ready else 'MISSING' }}</span></div><div class="setting-row"><div><strong>Prediction API</strong><small>POST /api/predict</small></div><span class="setting-tag">LOCAL</span></div><p class="unit-note">Do not expose the local development server publicly. For production, configure a secure deployment and secret key.</p></section></div>
+{% endblock %}

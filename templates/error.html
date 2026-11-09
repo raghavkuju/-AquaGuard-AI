@@ -1,0 +1,3 @@
+{% extends "base.html" %}
+{% block title %}{{ code }} | AquaGuard AI{% endblock %}
+{% block content %}<section class="panel empty-table error-page"><div>⌁</div><h1>{{ code }}</h1><strong>{{ message }}</strong><p>Check the address or return to your workspace.</p><a class="btn-primary link-button" href="{{ url_for('dashboard') if user else url_for('login') }}"><span>Back to workspace</span><b>↗</b></a></section>{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Create account' if mode=='signup' else 'Login' }} | AquaGuard AI{% endblock %}
+{% block auth_content %}
+<div class="auth-page">
+  <div class="auth-visual">
+    <a class="brand auth-brand" href="{{ url_for('login') }}"><span class="brand-mark"><svg viewBox="0 0 32 32"><path d="M16 3.5C13 8.3 6.5 15 6.5 20.3a9.5 9.5 0 0 0 19 0C25.5 15 19 8.3 16 3.5Z"/><path d="M11.2 21.2a5 5 0 0 0 4.8 4"/></svg></span><span><strong>AquaGuard AI</strong><small>CLEAN WATER • HEALTHY FUTURE</small></span></a>
+    <div class="auth-art"><div class="auth-ripple ripple-one"></div><div class="auth-ripple ripple-two"></div><div class="auth-big-drop"><svg viewBox="0 0 100 120"><path d="M50 5C40 24 15 49 15 72a35 35 0 0 0 70 0C85 49 60 24 50 5Z"/><path d="M31 73c0 11 8 20 19 20"/></svg></div><span class="art-label label-one">AI POWERED</span><span class="art-label label-two">9 WATER PARAMETERS</span></div>
+    <div class="auth-tagline"><div class="eyebrow"><span class="eyebrow-line"></span> WATER QUALITY INTELLIGENCE</div><h1>Clarity starts<br>with <span>every drop.</span></h1><p>Explore water-quality measurements with a machine-learning model designed to support informed decisions.</p></div>
+    <div class="auth-features"><div><span>✧</span><strong>AI-assisted</strong><small>Model predictions</small></div><div><span>◈</span><strong>Data insights</strong><small>Quality history</small></div><div><span>⌁</span><strong>One workspace</strong><small>Simple dashboard</small></div></div>
+  </div>
+  <div class="auth-form-side">
+    <div class="auth-card">
+      <div class="auth-card-top"><span class="section-kicker">{{ 'GET STARTED' if mode=='signup' else 'WELCOME BACK' }}</span><div class="auth-mini-icon">✦</div></div>
+      <h2>{{ 'Create your account' if mode=='signup' else 'Welcome back.' }}</h2>
+      <p class="auth-subtitle">{{ 'Join your AquaGuard AI workspace.' if mode=='signup' else 'Sign in to continue to your water intelligence dashboard.' }}</p>
+      <form method="post" class="auth-form">
+        {% if mode=='signup' %}<label class="field"><span>Full name</span><input name="name" type="text" placeholder="Your name" minlength="2" maxlength="80" autocomplete="name" required></label>{% endif %}
+        <label class="field"><span>Email address</span><input name="email" type="email" placeholder="you@example.com" autocomplete="email" required></label>
+        <label class="field"><span>Password {% if mode=='signup' %}<em>8+ characters</em>{% endif %}</span><input name="password" type="password" placeholder="{{ 'Create a strong password' if mode=='signup' else 'Enter your password' }}" minlength="{{ 8 if mode=='signup' else 1 }}" autocomplete="{{ 'new-password' if mode=='signup' else 'current-password' }}" required></label>
+        {% if mode=='login' %}<div class="auth-options"><label class="remember"><input type="checkbox" name="remember"> <span>Remember me on this device</span></label><span class="muted-small">Local demo</span></div>{% endif %}
+        <button class="btn-primary auth-submit" type="submit"><span>{{ 'Create account' if mode=='signup' else 'Login to dashboard' }}</span><b>↗</b></button>
+      </form>
+      <div class="auth-switch">{% if mode=='signup' %}Already have an account? <a href="{{ url_for('login') }}">Login</a>{% else %}New to AquaGuard AI? <a href="{{ url_for('signup') }}">Create account</a>{% endif %}</div>
+      <div class="auth-security"><span>◇</span> Passwords are hashed before being stored locally.</div>
+    </div>
+    <div class="auth-copyright">© 2026 AquaGuard AI <span>•</span> CLEAN WATER, INFORMED CHOICES</div>
+  </div>
+</div>
+{% endblock %}

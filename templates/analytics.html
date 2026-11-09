@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Analytics | AquaGuard AI{% endblock %}
+{% block breadcrumb %}Analytics{% endblock %}
+{% block head %}<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>{% endblock %}
+{% block content %}
+<section class="page-intro"><div><div class="eyebrow"><span class="eyebrow-line"></span> MODEL ACTIVITY</div><h1>Your data, <span>at a glance.</span></h1><p class="hero-copy">A summary of predictions saved in your account. These are not validated model-accuracy metrics.</p></div></section>
+<section class="metric-grid"><article class="metric-card"><div class="metric-head"><span>TOTAL RUNS</span><span class="metric-icon cyan">◈</span></div><div class="metric-value">{{ total }}</div><div class="metric-foot">Saved prediction records</div></article><article class="metric-card"><div class="metric-head"><span>CLASS 1</span><span class="metric-icon green">✓</span></div><div class="metric-value">{{ potable }}</div><div class="metric-foot">Predicted class 1 records</div></article><article class="metric-card"><div class="metric-head"><span>CLASS 0</span><span class="metric-icon red">!</span></div><div class="metric-value">{{ not_potable }}</div><div class="metric-foot">Predicted class 0 records</div></article></section>
+<section class="panel chart-panel"><div class="panel-heading"><div><div class="section-kicker">SAVED PREDICTIONS</div><h2>Prediction timeline</h2><p>Shows class output by record order (not a water-safety trend).</p></div></div><div class="chart-wrap">{% if total %}<canvas id="historyChart"></canvas>{% else %}<div class="empty-table"><div>▥</div><strong>No analytics yet</strong><p>Run a prediction to populate this chart.</p></div>{% endif %}</div></section>
+<script>
+window.aquaChartData = { labels: {{ chart_labels|tojson }}, values: {{ chart_values|tojson }} };
+</script>
+{% endblock %}

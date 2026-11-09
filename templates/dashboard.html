@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Dashboard | AquaGuard AI{% endblock %}
+{% block breadcrumb %}Dashboard{% endblock %}
+{% block content %}
+<section class="welcome-row"><div><div class="eyebrow"><span class="eyebrow-line"></span> YOUR WATER INTELLIGENCE</div><h1>Welcome back, <span>{{ user.name.split()[0] }}.</span></h1><p class="hero-copy">Monitor your sample history and run AI-assisted water-quality predictions.</p></div><div class="hero-art"><div class="orbit orbit-a"></div><div class="orbit orbit-b"></div><div class="hero-drop"><svg viewBox="0 0 100 120"><path d="M50 5C40 24 15 49 15 72a35 35 0 0 0 70 0C85 49 60 24 50 5Z"/><path d="M31 73c0 11 8 20 19 20"/></svg></div><div class="float-tag tag-top"><span>✦</span> ML POWERED</div><div class="float-tag tag-bottom"><span class="tiny-dot"></span> 9 PARAMETERS</div></div></section>
+<section class="metric-grid">
+  <article class="metric-card"><div class="metric-head"><span>TOTAL PREDICTIONS</span><span class="metric-icon cyan">◈</span></div><div class="metric-value">{{ total }}</div><div class="metric-foot"><span class="foot-neutral">●</span> Your saved analyses</div></article>
+  <article class="metric-card"><div class="metric-head"><span>PREDICTED CLASS 1</span><span class="metric-icon green">✓</span></div><div class="metric-value">{{ potable }}</div><div class="metric-foot">Model class 1 — not a safety guarantee</div></article>
+  <article class="metric-card"><div class="metric-head"><span>PREDICTED CLASS 0</span><span class="metric-icon red">!</span></div><div class="metric-value">{{ not_potable }}</div><div class="metric-foot">Model class 0 — see lab safety note</div></article>
+</section>
+<section class="dashboard-grid">
+  <div class="panel launch-panel"><div class="launch-graphic"><div class="launch-ring"></div><div class="launch-drop">♢</div></div><div class="section-kicker">READY TO ANALYZE?</div><h2>Check a water sample</h2><p>Enter the nine measured parameters and send them to your saved machine-learning model.</p><a class="btn-primary link-button" href="{{ url_for('predict_page') }}"><span>Start new prediction</span><b>↗</b></a><div class="launch-foot"><span class="tiny-dot"></span> Uses your local trained model</div></div>
+  <div class="panel overview-panel"><div class="panel-heading"><div><div class="section-kicker">YOUR WORKSPACE</div><h2>Prediction overview</h2><p>Summary of saved model outputs.</p></div><span class="metric-icon cyan">▥</span></div>
+    {% if total %}
+      <div class="donut-wrap"><div class="donut" style="--safe:{{ (potable / total * 100)|round|int }}%"><div><strong>{{ ((potable / total) * 100)|round|int }}%</strong><small>Class 1</small></div></div><div class="donut-legend"><div><i class="legend-cyan"></i><span>Class 1</span><strong>{{ potable }}</strong></div><div><i class="legend-red"></i><span>Class 0</span><strong>{{ not_potable }}</strong></div></div></div>
+    {% else %}<div class="empty-small"><span>◌</span><strong>No predictions yet</strong><p>Your chart will appear after the first analysis.</p></div>{% endif %}
+    <div class="overview-bottom"><span>All saved results belong to your account.</span><a href="{{ url_for('analytics') }}">View analytics ↗</a></div>
+  </div>
+</section>
+<section class="panel recent-panel"><div class="panel-heading"><div><div class="section-kicker">LATEST ACTIVITY</div><h2>Recent predictions</h2><p>Your latest model runs.</p></div><a class="text-link" href="{{ url_for('history') }}">View history ↗</a></div>
+{% if recent %}<div class="table-wrap"><table><thead><tr><th>ID</th><th>Date & time</th><th>Model class</th><th>Class 1 probability</th><th>Details</th></tr></thead><tbody>{% for row in recent %}<tr><td>#{{ row.id }}</td><td>{{ row.created_at[:16].replace('T',' ') }}</td><td><span class="status-pill {{ 'safe' if row.prediction==1 else 'unsafe' }}">{{ 'Class 1' if row.prediction==1 else 'Class 0' }}</span></td><td>{{ (row.probability_1 * 100)|round(1) if row.probability_1 is not none else 'N/A' }}{% if row.probability_1 is not none %}%{% endif %}</td><td><a class="table-link" href="{{ url_for('history') }}">Open history</a></td></tr>{% endfor %}</tbody></table></div>
+{% else %}<div class="empty-table"><div>⌁</div><strong>No sample history yet</strong><p>Run your first prediction to start building your history.</p><a href="{{ url_for('predict_page') }}" class="text-link">Create prediction →</a></div>{% endif %}</section>
+<div class="safety-note page-safety"><span>ⓘ</span><p><strong>Water safety reminder</strong>The model predicts dataset classes only. It does not certify water as safe to drink. Use an accredited laboratory for drinking-water safety decisions.</p></div>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}New Prediction | AquaGuard AI{% endblock %}
+{% block breadcrumb %}New prediction{% endblock %}
+{% block content %}
+<section class="page-intro"><div><div class="eyebrow"><span class="eyebrow-line"></span> MODEL INFERENCE</div><h1>Water sample <span>analyzer.</span></h1><p class="hero-copy">Enter values from your water test report. The saved model will return its predicted class.</p></div><span class="step-badge">INPUT <span> / OUTPUT</span></span></section>
+<div class="workspace-grid prediction-layout">
+  <section class="panel analyzer-panel"><div class="panel-heading"><div><div class="section-kicker">ANALYSIS INPUT</div><h2>Water quality parameters</h2><p>All nine fields are required.</p></div><span class="metric-icon cyan">⌁</span></div>
+    <form id="waterForm"><div class="input-grid">
+      <label class="field"><span>pH level <em>pH</em></span><input type="number" name="ph" min="0" max="14" step="any" value="7.0" required><small>Allowed: 0–14</small></label>
+      <label class="field"><span>Hardness <em>dataset units</em></span><input type="number" name="Hardness" min="0" step="any" value="150" required><small>Calcium & magnesium indicator</small></label>
+      <label class="field"><span>Total dissolved solids <em>dataset units</em></span><input type="number" name="Solids" min="0" step="any" value="15000" required><small>Solids concentration</small></label>
+      <label class="field"><span>Chloramines <em>dataset units</em></span><input type="number" name="Chloramines" min="0" step="any" value="7" required><small>Disinfection indicator</small></label>
+      <label class="field"><span>Sulfate <em>dataset units</em></span><input type="number" name="Sulfate" min="0" step="any" value="300" required><small>Sulfate concentration</small></label>
+      <label class="field"><span>Conductivity <em>dataset units</em></span><input type="number" name="Conductivity" min="0" step="any" value="400" required><small>Electrical conductivity</small></label>
+      <label class="field"><span>Organic carbon <em>dataset units</em></span><input type="number" name="Organic_carbon" min="0" step="any" value="10" required><small>Organic carbon estimate</small></label>
+      <label class="field"><span>Trihalomethanes <em>dataset units</em></span><input type="number" name="Trihalomethanes" min="0" step="any" value="60" required><small>THM concentration</small></label>
+      <label class="field"><span>Turbidity <em>dataset units</em></span><input type="number" name="Turbidity" min="0" step="any" value="4" required><small>Water clarity indicator</small></label>
+    </div><div class="form-actions"><button class="btn-ghost" type="reset" id="resetBtn">↺ Reset values</button><button class="btn-primary" type="submit" id="predictBtn"><span>Run AI analysis</span><b>↗</b></button></div>
+    <p class="unit-note">Use the same measurement units and comparable ranges as the training dataset. Default values are for demonstration only.</p></form>
+  </section>
+  <aside class="panel results-panel"><div class="panel-heading"><div><div class="section-kicker">MODEL OUTPUT</div><h2>Prediction result</h2><p>Actual response from the saved model.</p></div><span class="result-spark">✦</span></div>
+    <div class="result-placeholder" id="resultPlaceholder"><div class="result-orb"><svg viewBox="0 0 64 64"><path d="M32 5C25 17 12 29 12 41a20 20 0 0 0 40 0C52 29 39 17 32 5Z"/><path d="M22 42c1 6 5 10 11 11"/></svg></div><h3>Ready when you are</h3><p>Submit your water measurements to see the predicted class and model probability estimates.</p><div class="placeholder-line"></div><div class="placeholder-line short"></div></div>
+    <div class="result-content hidden" id="resultContent"><div class="result-label" id="resultLabel">MODEL PREDICTION</div><div class="result-title" id="resultTitle">—</div><p class="result-description" id="resultDescription"></p>
+      <div class="confidence-block"><div class="confidence-head"><span>Class 1 probability</span><strong id="class1Value">—</strong></div><div class="progress-track"><div class="progress-fill" id="class1Bar"></div></div></div>
+      <div class="confidence-block"><div class="confidence-head"><span>Class 0 probability</span><strong id="class0Value">—</strong></div><div class="progress-track"><div class="progress-fill alt" id="class0Bar"></div></div></div>
+      <div class="result-meta"><span class="meta-check">✓</span><span>Saved to your prediction history</span></div><a href="{{ url_for('history') }}" class="btn-ghost history-shortcut">View prediction history ↗</a>
+    </div><div class="error-box hidden" id="errorBox" role="alert"></div>
+    <div class="safety-note"><span>ⓘ</span><p><strong>Important safety note</strong> Model class is not a drinking-water safety certification. Laboratory testing is necessary to assess actual water safety.</p></div>
+  </aside>
+</div>
+{% endblock %}

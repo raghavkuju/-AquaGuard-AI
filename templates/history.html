@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}History | AquaGuard AI{% endblock %}
+{% block breadcrumb %}History{% endblock %}
+{% block content %}
+<section class="page-intro"><div><div class="eyebrow"><span class="eyebrow-line"></span> SAVED ACTIVITY</div><h1>Prediction <span>history.</span></h1><p class="hero-copy">Review the predictions saved to your account.</p></div><a class="btn-primary link-button" href="{{ url_for('predict_page') }}"><span>New prediction</span><b>↗</b></a></section>
+<section class="panel recent-panel"><div class="panel-heading"><div><div class="section-kicker">YOUR RECORDS</div><h2>All predictions</h2><p>{{ records|length }} saved model run(s)</p></div><span class="metric-icon cyan">◷</span></div>
+{% if records %}<div class="table-wrap"><table><thead><tr><th>ID</th><th>Date & time</th><th>Predicted class</th><th>Class 1 probability</th><th>pH</th><th>Turbidity</th></tr></thead><tbody>{% for row in records %}<tr><td>#{{ row.id }}</td><td>{{ row.created_at[:16].replace('T',' ') }}</td><td><span class="status-pill {{ 'safe' if row.prediction==1 else 'unsafe' }}">{{ 'Class 1' if row.prediction==1 else 'Class 0' }}</span></td><td>{{ (row.probability_1 * 100)|round(1) if row.probability_1 is not none else 'N/A' }}{% if row.probability_1 is not none %}%{% endif %}</td><td>{{ row.parameters.get('ph','—') }}</td><td>{{ row.parameters.get('Turbidity','—') }}</td></tr>{% endfor %}</tbody></table></div>
+{% else %}<div class="empty-table"><div>◷</div><strong>Nothing here yet</strong><p>Your completed predictions will be saved here.</p><a href="{{ url_for('predict_page') }}" class="text-link">Run first prediction →</a></div>{% endif %}</section>
+{% endblock %}

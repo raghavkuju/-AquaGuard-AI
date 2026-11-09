@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block title %}Profile | AquaGuard AI{% endblock %}
+{% block breadcrumb %}Profile{% endblock %}
+{% block content %}
+<section class="page-intro"><div><div class="eyebrow"><span class="eyebrow-line"></span> YOUR ACCOUNT</div><h1>User <span>profile.</span></h1><p class="hero-copy">Manage the basic details associated with your AquaGuard workspace.</p></div></section>
+<div class="profile-grid"><section class="panel profile-card"><div class="profile-hero"><div class="profile-avatar">{{ user.name[:1]|upper }}</div><div><h2>{{ user.name }}</h2><p>{{ user.email }}</p><span class="status-pill safe">Local account</span></div></div><div class="profile-stats"><div><small>ACCOUNT CREATED</small><strong>{{ user.created_at[:10] }}</strong></div><div><small>SAVED PREDICTIONS</small><strong>{{ prediction_count }}</strong></div></div></section>
+<section class="panel profile-edit"><div class="panel-heading"><div><div class="section-kicker">PERSONAL DETAILS</div><h2>Edit profile</h2><p>Update the display name on your account.</p></div></div><form method="post"><label class="field"><span>Full name</span><input name="name" value="{{ user.name }}" minlength="2" maxlength="80" required></label><label class="field"><span>Email address</span><input value="{{ user.email }}" disabled><small>Email editing is not enabled in this starter version.</small></label><button class="btn-primary" type="submit"><span>Save profile</span><b>↗</b></button></form></section></div>
+{% endblock %}
